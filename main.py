@@ -27,6 +27,7 @@ async def build_replay(sid, mode):
     f = open(f'{glob.config.replay_path}{moder}/{sid}.osr', 'rb')
     f.seek(0)
     rawReplay = f.read()
+    newunix = (score["play_time"] - datetime.datetime(1970, 1, 1)).total_seconds()
     full = binary_write([
         [score["mode"], dataTypes.byte],
         [20150414, dataTypes.uInt32],
@@ -44,7 +45,7 @@ async def build_replay(sid, mode):
         [score["perfect"], dataTypes.byte],
         [score["mods"], dataTypes.uInt32],
         [0, dataTypes.byte],
-        [replay_time(int(score["play_time"])), dataTypes.uInt64],
+        [replay_time(int(newunix)), dataTypes.uInt64],
         [rawReplay, dataTypes.rawReplay],
         [0, dataTypes.uInt32],
         [0, dataTypes.uInt32]
